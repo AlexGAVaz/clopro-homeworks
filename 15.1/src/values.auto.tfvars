@@ -1,0 +1,9 @@
+public_subnet_cidr  = "192.168.10.0/24"
+private_subnet_cidr = "192.168.20.0/24"
+nat_instance_ip     = "192.168.10.254"
+nat_image_id        = "fd80mrhj8fl2oe87o4e1"
+public_zone         = "ru-central1-a"
+private_zone        = "ru-central1-a"
+nat_instance_cores  = 2
+nat_instance_memory = 2
+ssh_public_key_path = "~/.ssh/id_rsa.pub"

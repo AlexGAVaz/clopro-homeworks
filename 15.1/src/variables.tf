@@ -6,26 +6,39 @@ variable "labels" {
   type        = map(string)
   default     = { created_by = "terraform" }
 }
-
-variable "public_ssh_key" {
-  description = "Public SSH key for instances"
-  type        = string
-}
-
 variable "public_subnet_cidr" {
-  description = "CIDR block for the public subnet"
+  description = "CIDR блок для публичной подсети"
   type        = string
-  default     = "192.168.10.0/24"
 }
-
 variable "private_subnet_cidr" {
-  description = "CIDR block for the private subnet"
+  description = "CIDR блок для приватной подсети"
   type        = string
-  default     = "192.168.20.0/24"
 }
-
-variable "nat_instance_image_id" {
-  description = "Image ID for the NAT instance"
+variable "nat_instance_ip" {
+  description = "IP-адрес для NAT-инстанса"
   type        = string
-  default     = "fd80mrhj8fl2oe87o4e1"
+}
+variable "nat_image_id" {
+  description = "ID образа для NAT-инстанса"
+  type        = string
+}
+variable "public_zone" {
+  description = "Зона для публичной подсети"
+  type        = string
+}
+variable "private_zone" {
+  description = "Зона для приватной подсети"
+  type        = string
+}
+variable "nat_instance_cores" {
+  description = "Количество ядер для NAT-инстанса"
+  type        = number
+}
+variable "nat_instance_memory" {
+  description = "Объем памяти (в ГБ) для NAT-инстанса"
+  type        = number
+}
+variable "ssh_public_key_path" {
+  description = "Путь к публичному ключу SSH"
+  type        = string
 }
