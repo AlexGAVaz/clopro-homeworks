@@ -61,7 +61,6 @@ resource "yandex_compute_instance_group" "lamp-group" {
   service_account_id = yandex_iam_service_account.sa-instance-group.id
 
   instance_template {
-    # name = "fix-${var.instance_group_size}"
     resources {
       cores         = 2
       memory        = 1
