@@ -1,0 +1,11 @@
+cloud_id                   = "b1gcla1jpo0ir7kgd3d8"
+folder_id                  = "b1gtn0rdlt5hmqmngokb"
+sa_backet_name             = "sa-backet"
+bucket_name                = "alexander-bucket-2024"
+image_name                 = "image.jpg"
+image_path                 = "./media/image.jpg"
+sa_instance_group          = "sa-instance-group"
+instance_group_name        = "fixed-instance-group"
+instance_group_size        = 3
+lamp_image_id              = "fd827b91d99psvq5fjit"
+network_load_balancer_name = "network-lb"

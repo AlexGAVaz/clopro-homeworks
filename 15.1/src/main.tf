@@ -30,7 +30,7 @@ resource "yandex_compute_instance" "nat_instance" {
     nat        = true
     ip_address = var.nat_instance_ip
   }
-  
+
   metadata = {
     ssh-keys = "user:${file(var.ssh_public_key_path)}"
   }

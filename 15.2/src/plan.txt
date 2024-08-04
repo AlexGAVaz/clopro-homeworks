@@ -1,0 +1,268 @@
+terraform apply -auto-approve
+
+data.terraform_remote_state.vpc: Reading...
+data.terraform_remote_state.vpc: Read complete after 1s
+
+Terraform used the selected providers to generate the following execution plan. Resource actions
+are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # yandex_compute_instance_group.lamp-group will be created
+  + resource "yandex_compute_instance_group" "lamp-group" {
+      + created_at          = (known after apply)
+      + deletion_protection = false
+      + folder_id           = "b1gtn0rdlt5hmqmngokb"
+      + id                  = (known after apply)
+      + instances           = (known after apply)
+      + name                = "fixed-instance-group"
+      + service_account_id  = (known after apply)
+      + status              = (known after apply)
+
+      + allocation_policy {
+          + zones = [
+              + "ru-central1-a",
+            ]
+        }
+
+      + deploy_policy {
+          + max_creating     = 3
+          + max_deleting     = 1
+          + max_expansion    = 1
+          + max_unavailable  = 1
+          + startup_duration = 3
+          + strategy         = (known after apply)
+        }
+
+      + health_check {
+          + healthy_threshold   = 2
+          + unhealthy_threshold = 2
+
+          + http_options {
+              + path = "/"
+              + port = 80
+            }
+        }
+
+      + instance_template {
+          + labels      = (known after apply)
+          + metadata    = (known after apply)
+          + platform_id = "standard-v1"
+
+          + boot_disk {
+              + device_name = (known after apply)
+              + mode        = "READ_WRITE"
+
+              + initialize_params {
+                  + image_id    = "fd827b91d99psvq5fjit"
+                  + size        = (known after apply)
+                  + snapshot_id = (known after apply)
+                  + type        = "network-hdd"
+                }
+            }
+
+          + network_interface {
+              + ip_address   = (known after apply)
+              + ipv4         = true
+              + ipv6         = (known after apply)
+              + ipv6_address = (known after apply)
+              + nat          = true
+              + network_id   = "enpj908k6rqefie5pjgi"
+              + subnet_ids   = [
+                  + "e9bbcoa0264v0o4tfiue",
+                ]
+            }
+
+          + resources {
+              + core_fraction = 20
+              + cores         = 2
+              + memory        = 1
+            }
+
+          + scheduling_policy {
+              + preemptible = true
+            }
+        }
+
+      + load_balancer {
+          + status_message    = (known after apply)
+          + target_group_id   = (known after apply)
+          + target_group_name = "target-group"
+        }
+
+      + scale_policy {
+          + fixed_scale {
+              + size = 3
+            }
+        }
+    }
+
+  # yandex_iam_service_account.sa-bucket will be created
+  + resource "yandex_iam_service_account" "sa-bucket" {
+      + created_at = (known after apply)
+      + folder_id  = (known after apply)
+      + id         = (known after apply)
+      + name       = "sa-backet"
+    }
+
+  # yandex_iam_service_account.sa-instance-group will be created
+  + resource "yandex_iam_service_account" "sa-instance-group" {
+      + created_at = (known after apply)
+      + folder_id  = (known after apply)
+      + id         = (known after apply)
+      + name       = "sa-instance-group"
+    }
+
+  # yandex_iam_service_account_static_access_key.sa-static-key will be created
+  + resource "yandex_iam_service_account_static_access_key" "sa-static-key" {
+      + access_key           = (known after apply)
+      + created_at           = (known after apply)
+      + description          = "static access key for bucket"
+      + encrypted_secret_key = (known after apply)
+      + id                   = (known after apply)
+      + key_fingerprint      = (known after apply)
+      + secret_key           = (sensitive value)
+      + service_account_id   = (known after apply)
+    }
+
+  # yandex_lb_network_load_balancer.network-load-balancer will be created
+  + resource "yandex_lb_network_load_balancer" "network-load-balancer" {
+      + created_at          = (known after apply)
+      + deletion_protection = (known after apply)
+      + folder_id           = (known after apply)
+      + id                  = (known after apply)
+      + name                = "network-lb"
+      + region_id           = (known after apply)
+      + type                = "external"
+
+      + attached_target_group {
+          + target_group_id = (known after apply)
+
+          + healthcheck {
+              + healthy_threshold   = 2
+              + interval            = 2
+              + name                = "http"
+              + timeout             = 1
+              + unhealthy_threshold = 2
+
+              + http_options {
+                  + path = "/"
+                  + port = 80
+                }
+            }
+        }
+
+      + listener {
+          + name        = "lb-listener"
+          + port        = 80
+          + protocol    = (known after apply)
+          + target_port = (known after apply)
+
+          + external_address_spec {
+              + address    = (known after apply)
+              + ip_version = "ipv4"
+            }
+        }
+    }
+
+  # yandex_resourcemanager_cloud_iam_member.bucket-editor will be created
+  + resource "yandex_resourcemanager_cloud_iam_member" "bucket-editor" {
+      + cloud_id = "b1gcla1jpo0ir7kgd3d8"
+      + id       = (known after apply)
+      + member   = (known after apply)
+      + role     = "storage.editor"
+    }
+
+  # yandex_resourcemanager_folder_iam_member.ig-aditor will be created
+  + resource "yandex_resourcemanager_folder_iam_member" "ig-aditor" {
+      + folder_id = "b1gtn0rdlt5hmqmngokb"
+      + id        = (known after apply)
+      + member    = (known after apply)
+      + role      = "editor"
+    }
+
+  # yandex_storage_bucket.bucket will be created
+  + resource "yandex_storage_bucket" "bucket" {
+      + access_key            = (known after apply)
+      + acl                   = "public-read"
+      + bucket                = "alexander-bucket-2024"
+      + bucket_domain_name    = (known after apply)
+      + default_storage_class = (known after apply)
+      + folder_id             = (known after apply)
+      + force_destroy         = false
+      + id                    = (known after apply)
+      + secret_key            = (sensitive value)
+      + website_domain        = (known after apply)
+      + website_endpoint      = (known after apply)
+    }
+
+  # yandex_storage_object.image will be created
+  + resource "yandex_storage_object" "image" {
+      + access_key   = (known after apply)
+      + acl          = "public-read"
+      + bucket       = "alexander-bucket-2024"
+      + content_type = (known after apply)
+      + id           = (known after apply)
+      + key          = "image.jpg"
+      + secret_key   = (sensitive value)
+      + source       = "./media/image.jpg"
+    }
+
+Plan: 9 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + bucket_name       = "alexander-bucket-2024"
+  + instance_group_id = (known after apply)
+  + load_balancer_ip  = [
+      + [
+          + (known after apply),
+        ],
+    ]
+yandex_iam_service_account.sa-bucket: Creating...
+yandex_iam_service_account.sa-instance-group: Creating...
+yandex_iam_service_account.sa-bucket: Creation complete after 4s [id=aje4dsfv5bq0glime9fa]
+yandex_iam_service_account_static_access_key.sa-static-key: Creating...
+yandex_resourcemanager_cloud_iam_member.bucket-editor: Creating...
+yandex_iam_service_account_static_access_key.sa-static-key: Creation complete after 1s [id=aje2s2bamm2koq2lmmf5]
+yandex_storage_bucket.bucket: Creating...
+yandex_iam_service_account.sa-instance-group: Creation complete after 5s [id=aje1mrhe562et107sbca]
+yandex_resourcemanager_folder_iam_member.ig-aditor: Creating...
+yandex_resourcemanager_cloud_iam_member.bucket-editor: Creation complete after 5s [id=b1gcla1jpo0ir7kgd3d8/storage.editor/serviceAccount:aje4dsfv5bq0glime9fa]
+yandex_resourcemanager_folder_iam_member.ig-aditor: Creation complete after 4s [id=b1gtn0rdlt5hmqmngokb/editor/serviceAccount:aje1mrhe562et107sbca]
+yandex_storage_bucket.bucket: Creation complete after 7s [id=alexander-bucket-2024]
+yandex_storage_object.image: Creating...
+yandex_compute_instance_group.lamp-group: Creating...
+yandex_storage_object.image: Creation complete after 0s [id=image.jpg]
+yandex_compute_instance_group.lamp-group: Still creating... [10s elapsed]
+yandex_compute_instance_group.lamp-group: Still creating... [20s elapsed]
+yandex_compute_instance_group.lamp-group: Still creating... [30s elapsed]
+yandex_compute_instance_group.lamp-group: Still creating... [40s elapsed]
+yandex_compute_instance_group.lamp-group: Still creating... [50s elapsed]
+yandex_compute_instance_group.lamp-group: Still creating... [1m0s elapsed]
+yandex_compute_instance_group.lamp-group: Still creating... [1m10s elapsed]
+yandex_compute_instance_group.lamp-group: Still creating... [1m20s elapsed]
+yandex_compute_instance_group.lamp-group: Still creating... [1m30s elapsed]
+yandex_compute_instance_group.lamp-group: Still creating... [1m40s elapsed]
+yandex_compute_instance_group.lamp-group: Still creating... [1m50s elapsed]
+yandex_compute_instance_group.lamp-group: Still creating... [2m0s elapsed]
+yandex_compute_instance_group.lamp-group: Still creating... [2m10s elapsed]
+yandex_compute_instance_group.lamp-group: Still creating... [2m20s elapsed]
+yandex_compute_instance_group.lamp-group: Still creating... [2m30s elapsed]
+yandex_compute_instance_group.lamp-group: Still creating... [2m40s elapsed]
+yandex_compute_instance_group.lamp-group: Creation complete after 2m41s [id=cl1r9rf9ld3p4scdoaip]
+yandex_lb_network_load_balancer.network-load-balancer: Creating...
+yandex_lb_network_load_balancer.network-load-balancer: Creation complete after 5s [id=enpte491lq74v5hlu9l6]
+Releasing state lock. This may take a few moments...
+
+Apply complete! Resources: 9 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+bucket_name = "alexander-bucket-2024"
+instance_group_id = "cl1r9rf9ld3p4scdoaip"
+load_balancer_ip = tolist([
+  tolist([
+    "51.250.45.58",
+  ]),
+])

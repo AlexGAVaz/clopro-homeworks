@@ -1,3 +1,5 @@
+cloud_id            = "b1gcla1jpo0ir7kgd3d8"
+folder_id           = "b1gtn0rdlt5hmqmngokb"
 public_subnet_cidr  = "192.168.10.0/24"
 private_subnet_cidr = "192.168.20.0/24"
 nat_instance_ip     = "192.168.10.254"
